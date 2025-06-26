@@ -2,7 +2,29 @@
 
 使用 OpenAI Whisper API 將 iPhone 錄音檔案轉換為文字的 Python 工具。
 
-## 🚀 一鍵執行 (推薦)
+## 📦 快速安裝
+
+### 🎯 一鍵安裝（推薦新用戶）
+
+**macOS/Linux 用戶**：
+```bash
+./install.sh
+```
+
+**Windows 用戶**：
+雙擊 `install.bat`
+
+📖 **完整安裝指南**: [INSTALL.md](INSTALL.md)
+
+### ⚡ 直接使用（已安裝用戶）
+
+```bash
+./start.sh  # 啟動互動式選單
+```
+
+---
+
+## 🚀 互動式選單界面
 
 ### 互動式選單（全新功能！）
 
