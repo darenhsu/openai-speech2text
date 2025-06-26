@@ -1,0 +1,59 @@
+# 環境變數檔案 (包含 API 金鑰等敏感資訊)
+.env
+
+# Python 虛擬環境
+venv/
+env/
+.venv/
+
+# Python 快取檔案
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# 音訊檔案 (通常很大，不需要版本控制)
+*.mp3
+*.mp4
+*.m4a
+*.wav
+*.mpeg
+*.mpga
+*.webm
+
+# 錄音資料夾內的音訊檔案和轉錄結果
+recordings/*.mp3
+recordings/*.mp4
+recordings/*.m4a
+recordings/*.wav
+recordings/*.mpeg
+recordings/*.mpga
+recordings/*.webm
+recordings/*.txt
+
+# 轉錄結果檔案 (其他位置)
+*.txt
+
+# macOS 系統檔案
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE 和編輯器檔案
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 日誌檔案
+*.log
+
+# 暫存檔案
+temp/
+tmp/ 

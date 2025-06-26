@@ -1,0 +1,2 @@
+# 這個檔案用來保持 recordings 資料夾在 git 中的存在
+# 但資料夾內的音訊檔案會被 .gitignore 忽略 
