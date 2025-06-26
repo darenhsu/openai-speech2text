@@ -1,6 +1,9 @@
 # 環境變數檔案 (包含 API 金鑰等敏感資訊)
 .env
 
+# 臨時檔案
+.env_checked
+
 # Python 虛擬環境
 venv/
 env/
