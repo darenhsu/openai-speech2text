@@ -24,11 +24,14 @@ cd openai-speech2text
 
   1️⃣  轉錄單一檔案
   2️⃣  批次轉錄 recordings 資料夾
-  3️⃣  查看系統狀態
-  4️⃣  說明與幫助
+  3️⃣  轉錄+整理 (單一檔案)
+  4️⃣  批次轉錄+整理
+  5️⃣  整理現有文字檔案
+  6️⃣  查看系統狀態
+  7️⃣  說明與幫助
   0️⃣  退出程式
 
-請輸入選項 (0-4): 
+請輸入選項 (0-7): 
 ```
 
 ### 傳統命令列（向後相容）
@@ -53,9 +56,11 @@ cd openai-speech2text
 - 🎤 支援 iPhone 錄音格式 (.m4a)
 - 🎵 支援多種音訊格式 (mp3, wav, mp4, mpeg, mpga, webm)
 - 🇨🇳 優化中文語音辨識
+- 🤖 **ChatGPT 智能整理**: 自動整理轉錄內容成結構化格式
+- 📝 **多種整理模式**: 重點整理、會議紀錄、筆記整理、摘要總結
 - 💾 自動儲存轉錄結果到文字檔案
 - 📏 自動檢查檔案大小 (OpenAI 限制 25MB)
-- 🚀 簡單易用的命令列介面
+- 🚀 簡單易用的互動式選單界面
 
 ## 手動安裝 (進階使用者)
 
@@ -118,7 +123,17 @@ python speech_to_text.py your_recording.m4a
 
 ### 命令列使用
 ```bash
+# 基本轉錄
 python speech_to_text.py recording.m4a
+
+# 轉錄+自動整理
+python speech_to_text.py recording.m4a --summarize
+
+# 指定整理類型
+python speech_to_text.py recording.m4a --summarize --type=會議紀錄
+python speech_to_text.py recording.m4a --summarize --type=重點整理
+python speech_to_text.py recording.m4a --summarize --type=筆記整理
+python speech_to_text.py recording.m4a --summarize --type=摘要總結
 ```
 
 ### Python 程式中使用
@@ -128,9 +143,44 @@ from speech_to_text import SpeechToText
 # 建立實例
 stt = SpeechToText()
 
-# 轉錄檔案
-text = stt.process_file("recording.m4a")
+# 基本轉錄
+text, _ = stt.process_file("recording.m4a")
 print(text)
+
+# 轉錄+自動整理
+text, summary = stt.process_file("recording.m4a", auto_summarize=True, summary_type="重點整理")
+print("原始轉錄:", text)
+print("整理結果:", summary)
+
+# 只整理現有文字檔案
+summary = stt.process_text_file("recording.txt", "會議紀錄")
+print("整理結果:", summary)
+```
+
+## 🤖 ChatGPT 智能整理功能
+
+### 整理類型說明
+- **🎯 重點整理**: 提取主要觀點和重要資訊，整理成條列式要點
+- **📝 會議紀錄**: 將內容整理成正式的會議記錄格式，包含議題、決議和行動項目
+- **📚 筆記整理**: 按主題分類整理，適合學習和知識管理
+- **📋 摘要總結**: 用 2-3 段文字簡潔總結主要內容
+
+### 使用方式
+1. **轉錄+整理一體化**: 選擇選單的 3️⃣ 或 4️⃣ 選項
+2. **只整理現有文字**: 選擇選單的 5️⃣ 選項
+3. **命令列整理**: 使用 `--summarize` 參數
+
+### 輸出檔案
+- **原始轉錄**: `檔名.txt`
+- **整理結果**: `檔名.重點整理.txt` (依選擇的類型命名)
+
+### 使用範例
+```bash
+# 通過選單選擇整理類型
+./start.sh  # 選擇 3️⃣ 轉錄+整理
+
+# 命令列指定整理類型
+python speech_to_text.py meeting.m4a --summarize --type=會議紀錄
 ```
 
 ## 📁 批次處理功能
@@ -139,14 +189,16 @@ print(text)
 1. 將多個音訊檔案放入 `recordings/` 資料夾
 2. 執行批次轉錄：
    ```bash
-   ./start.sh recordings
+   ./start.sh recordings  # 只轉錄
    ```
+3. 或選擇選單的 4️⃣ 選項進行批次轉錄+整理
 
 ### 批次處理特色
 - 🔍 **自動掃描**：找到所有支援的音訊檔案
 - 📊 **進度顯示**：即時顯示處理進度 (1/5, 2/5...)
 - 🛡️ **錯誤處理**：單一檔案失敗不影響其他檔案
 - 📈 **統計報告**：完成後顯示成功/失敗統計
+- 🤖 **智能整理**：可選擇統一的整理類型套用到所有檔案
 - 🔒 **安全性**：recordings 資料夾內容不會被 git 上傳
 
 ## 支援的檔案格式
@@ -156,8 +208,21 @@ print(text)
 
 ## 輸出結果
 
+### 基本轉錄
 - **控制台顯示**: 轉錄完成後會在控制台顯示結果
 - **文字檔案**: 自動儲存到與原檔案同名的 `.txt` 檔案
+
+### 智能整理 (使用 `--summarize` 或選單選項)
+- **原始轉錄檔**: `檔名.txt` - 完整的語音轉錄內容
+- **整理後檔案**: `檔名.整理類型.txt` - ChatGPT 整理後的結構化內容
+- **控制台顯示**: 同時顯示原始轉錄和整理結果
+
+範例輸出檔案：
+```
+meeting_20240101.m4a          # 原始音訊檔案
+├── meeting_20240101.txt      # 原始轉錄
+└── meeting_20240101.會議紀錄.txt  # 整理後內容
+```
 
 ## 設定檢查
 
